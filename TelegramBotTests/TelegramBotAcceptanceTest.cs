@@ -57,11 +57,11 @@ namespace TelegramBotAcceptanceTests
             TelegramBotRunner bot_runner = new TelegramBotRunner();
             TelegramBot bot = new TelegramBot(api_client, bot_runner);
 
-            TelegramBotHelper.StartBot(bot);
+            bot.Start();
 
             InjectUpdate(hello_message);
 
-            TelegramBotHelper.StopBot(bot);
+            bot.Stop();
 
             Assert.AreEqual("Hello John", SentMessage());
         }
