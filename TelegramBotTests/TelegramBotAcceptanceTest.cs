@@ -2,10 +2,11 @@ using NUnit.Framework;
 using System.Threading.Tasks;
 using TelegramBotApp;
 using TelegramBotTests.stubs;
+using TelegramBotTests.helpers;
 
-namespace TelegramBotTests
+namespace TelegramBotAcceptanceTests
 {
-    public class Tests
+    public class TelegramBotAcceptanceTests
     {
         string API_TOKEN = "apitoken";
         HttpClientStub http_client_stub;
@@ -53,25 +54,16 @@ namespace TelegramBotTests
             }";
 
             TelegramBotApiClient api_client = new TelegramBotApiClient(API_TOKEN, http_client_stub);
-            TelegramBot bot = new TelegramBot(api_client);
+            TelegramBotRunner bot_runner = new TelegramBotRunner();
+            TelegramBot bot = new TelegramBot(api_client, bot_runner);
 
-            StartBot(bot);
+            TelegramBotHelper.StartBot(bot);
 
             InjectUpdate(hello_message);
 
-            StopBot(bot);
+            TelegramBotHelper.StopBot(bot);
 
             Assert.AreEqual("Hello John", SentMessage());
-        }
-
-        async void StartBot(TelegramBot bot)
-        {
-            await Task.Run(() => bot.Start());
-        }
-
-        void StopBot(TelegramBot bot)
-        {
-            bot.Stop();
         }
 
         void InjectUpdate(string get_update_response)
