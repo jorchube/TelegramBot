@@ -32,7 +32,12 @@ namespace TelegramBotApp
 
         public void HandleUpdate(TelegramBotUpdate update)
         {
-        
+            TelegramBotOutgoingMessage response = new TelegramBotOutgoingMessage(
+                chat_id: update.message.chat.id,
+                text: "Hello " + update.message.from.first_name
+            );
+
+            api_client.SendMessage(response);
         }
     }
 }
