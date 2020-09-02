@@ -26,69 +26,24 @@ namespace TelegramBotTests
         [Test]
         public void ItDecodesGetUpdatesAnswerWithOneUpdate()
         {
-            TelegramBotUpdate expected_update = new TelegramBotUpdate(
-                id: 153480413,
-                message: new TelegramBotUpdate.Message(
-                    id: 2,
-                    date: 1597997582,
-                    text: "sample text",
-                    from: new TelegramBotUpdate.User(
-                        id: 344365009,
-                        first_name: "John",
-                        last_name: "Doe"
-                    ),
-                    chat: new TelegramBotUpdate.Chat(id: 344365009)
-                )
-            );
-
-            List<TelegramBotUpdate> updates = TelegramBotApiGetUpdatesDecoder.Decode(GET_UPDATES_ONE_RESPONSE);
+            List<TelegramBotUpdate> updates = TelegramBotApiGetUpdatesDecoder.Decode(GET_UPDATES_ONE_UPDATE_RESPONSE);
 
             Assert.AreEqual(1, updates.Count);
-            Assert.AreEqual(expected_update, updates.First());
+            Assert.AreEqual(EXPECTED_ONE_UPDATE, updates.First());
         }
 
         [Test]
         public void ItDecodesGetUpdatesAnswerWithManyUpdates()
         {
-            List<TelegramBotUpdate> expected_updates = new List<TelegramBotUpdate> {
-                new TelegramBotUpdate(
-                    id: 153480413,
-                    message: new TelegramBotUpdate.Message(
-                        id: 2,
-                        date: 1597997582,
-                        text: "sample text",
-                        from: new TelegramBotUpdate.User(
-                            id: 344365009,
-                            first_name: "John",
-                            last_name: "Doe"
-                        ),
-                        chat: new TelegramBotUpdate.Chat(id: 344365009)
-                    )
-                ),
-                new TelegramBotUpdate(
-                    id: 153480414,
-                    message: new TelegramBotUpdate.Message(
-                        id: 3,
-                        date: 1597997586,
-                        text: "another sample text",
-                        from: new TelegramBotUpdate.User(
-                            id: 344365009,
-                            first_name: "John",
-                            last_name: "Doe"
-                        ),
-                        chat: new TelegramBotUpdate.Chat(id: 344365009)
-                    )
-                )
-            };
-
-            List<TelegramBotUpdate> updates = TelegramBotApiGetUpdatesDecoder.Decode(GET_UPDATES_MANY_RESPONSES);
+            List<TelegramBotUpdate> updates = TelegramBotApiGetUpdatesDecoder.Decode(GET_UPDATES_MANY_UPDATES_RESPONSES);
 
             Assert.AreEqual(2, updates.Count);
-            Assert.IsTrue(expected_updates.All(update => updates.Contains(update)));
+            Assert.IsTrue(EXPECTED_MANY_UPDATES.All(update => updates.Contains(update)));
         }
 
         string GET_UPDATES_EMPTY_RESPONSE = "{\"ok\": true,\"result\": []}";
-        string GET_UPDATES_ONE_RESPONSE = @"{
+
+        string GET_UPDATES_ONE_UPDATE_RESPONSE = @"{
             ""ok"": true,
             ""result"": [
                 {
@@ -114,7 +69,22 @@ namespace TelegramBotTests
                 }
             ]
         }";
-        string GET_UPDATES_MANY_RESPONSES = @"{
+        TelegramBotUpdate EXPECTED_ONE_UPDATE = new TelegramBotUpdate(
+            id: 153480413,
+            message: new TelegramBotUpdate.Message(
+                id: 2,
+                date: 1597997582,
+                text: "sample text",
+                from: new TelegramBotUpdate.User(
+                    id: 344365009,
+                    first_name: "John",
+                    last_name: "Doe"
+                ),
+                chat: new TelegramBotUpdate.Chat(id: 344365009)
+            )
+        );
+
+        string GET_UPDATES_MANY_UPDATES_RESPONSES = @"{
             ""ok"": true,
             ""result"": [
                 {
@@ -161,5 +131,35 @@ namespace TelegramBotTests
                 }
             ]
         }";
+        List<TelegramBotUpdate> EXPECTED_MANY_UPDATES = new List<TelegramBotUpdate> {
+            new TelegramBotUpdate(
+                id: 153480413,
+                message: new TelegramBotUpdate.Message(
+                    id: 2,
+                    date: 1597997582,
+                    text: "sample text",
+                    from: new TelegramBotUpdate.User(
+                        id: 344365009,
+                        first_name: "John",
+                        last_name: "Doe"
+                    ),
+                    chat: new TelegramBotUpdate.Chat(id: 344365009)
+                )
+            ),
+            new TelegramBotUpdate(
+                id: 153480414,
+                message: new TelegramBotUpdate.Message(
+                    id: 3,
+                    date: 1597997586,
+                    text: "another sample text",
+                    from: new TelegramBotUpdate.User(
+                        id: 344365009,
+                        first_name: "John",
+                        last_name: "Doe"
+                    ),
+                    chat: new TelegramBotUpdate.Chat(id: 344365009)
+                )
+            )
+        };
     }
 }
