@@ -8,7 +8,6 @@ namespace TelegramBotApp
     {
         public void Start();
         public void Stop();
-
         public List<TelegramBotUpdate> GetUpdates();
         public void HandleUpdate(TelegramBotUpdate update);
     }
