@@ -31,7 +31,7 @@ namespace TelegramBotApp
             HttpContent http_content = new StringContent(content);
             http_content.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
-            HttpResponseMessage response = Task.Run(async () => await http_client.PostAsync(requestUri, http_content)).Result;
+            Task.Run(async () => await http_client.PostAsync(requestUri, http_content));
         }
     }
 }
