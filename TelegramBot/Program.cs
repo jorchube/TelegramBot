@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace TelegramBotApp
 {
@@ -6,7 +8,19 @@ namespace TelegramBotApp
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            string api_token = args[0];
+
+            HttpClientWrapper http_client = new HttpClientWrapper();
+            ApiClient api_client = new ApiClient(api_token, http_client);
+            BotRunner runner = new BotRunner();
+
+            Bot bot = new Bot(api_client, runner);
+
+            bot.Start();
+
+            while (true) {
+                Thread.Sleep(30);
+            }
         }
     }
 }
