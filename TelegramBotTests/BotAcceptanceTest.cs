@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using TelegramBotApp;
 using TelegramBotTests.stubs;
 
-namespace TelegramBotAcceptanceTests
+namespace BotAcceptanceTests
 {
-    public class TelegramBotAcceptanceTests
+    public class BotAcceptanceTests
     {
         string API_TOKEN = "apitoken";
         HttpClientWrapperStub http_client_stub;
@@ -53,9 +53,9 @@ namespace TelegramBotAcceptanceTests
                 ]
             }";
 
-            TelegramBotApiClient api_client = new TelegramBotApiClient(API_TOKEN, http_client_stub);
-            TelegramBotRunner bot_runner = new TelegramBotRunner();
-            TelegramBot bot = new TelegramBot(api_client, bot_runner);
+            ApiClient api_client = new ApiClient(API_TOKEN, http_client_stub);
+            BotRunner bot_runner = new BotRunner();
+            Bot bot = new Bot(api_client, bot_runner);
 
             bot.Start();
 
@@ -73,11 +73,11 @@ namespace TelegramBotAcceptanceTests
             http_client_stub.InjectGetResponse(get_update_response);
         }
 
-        TelegramBotOutgoingMessage SentMessage()
+        OutgoingMessage SentMessage()
         {
             string content = http_client_stub.PostRequestContent();
 
-            return JsonSerializer.Deserialize<TelegramBotOutgoingMessage>(content);
+            return JsonSerializer.Deserialize<OutgoingMessage>(content);
         }
     }
 }

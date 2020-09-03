@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace TelegramBotApp
 {
-    public static class TelegramBotApiGetUpdatesDecoder
+    public static class ApiGetUpdatesDecoder
     {
         class GetUpdatesContent
         {
@@ -14,10 +14,10 @@ namespace TelegramBotApp
             public bool Success { get; set; }
 
             [JsonPropertyName("result")]
-            public List<TelegramBotUpdate> Updates { get; set; }
+            public List<UpdateMessage> Updates { get; set; }
         }
 
-        public static List<TelegramBotUpdate> Decode(string get_updates_content)
+        public static List<UpdateMessage> Decode(string get_updates_content)
         {
             GetUpdatesContent content = JsonSerializer.Deserialize<GetUpdatesContent>(get_updates_content);
 

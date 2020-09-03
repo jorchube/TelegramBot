@@ -17,7 +17,7 @@ namespace TelegramBotTests
         [Test]
         public void ItEncodesAMessage()
         {
-            TelegramBotOutgoingMessage message = new TelegramBotOutgoingMessage(chat_id: 33, text: "lalala");
+            OutgoingMessage message = new OutgoingMessage(chat_id: 33, text: "lalala");
 
             string encoded = OutgoingMessageEncoder.Encode(message);
 

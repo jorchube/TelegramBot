@@ -7,22 +7,22 @@ using TelegramBotApp;
 
 namespace TelegramBotTests
 {
-    class TelegramBotTest
+    class BotTest
     {
-        Mock<TelegramBotApiClientInteface> api_client_mock;
-        Mock<TelegramBotRunnerInterface> bot_runner_mock;
+        Mock<ApiClientInteface> api_client_mock;
+        Mock<BotRunnerInterface> bot_runner_mock;
 
         [SetUp]
         public void Setup()
         {
-            api_client_mock = new Mock<TelegramBotApiClientInteface>();
-            bot_runner_mock = new Mock<TelegramBotRunnerInterface>();
+            api_client_mock = new Mock<ApiClientInteface>();
+            bot_runner_mock = new Mock<BotRunnerInterface>();
         }
 
         [Test]
         public void RunnerStartsWithBotWhenStartingBot()
         {
-            TelegramBot bot = new TelegramBot(api_client_mock.Object, bot_runner_mock.Object);
+            Bot bot = new Bot(api_client_mock.Object, bot_runner_mock.Object);
 
             bot.Start();
 
@@ -32,7 +32,7 @@ namespace TelegramBotTests
         [Test]
         public void RunnerStopsWhenStoppingBot()
         {
-            TelegramBot bot = new TelegramBot(api_client_mock.Object, bot_runner_mock.Object);
+            Bot bot = new Bot(api_client_mock.Object, bot_runner_mock.Object);
 
             bot.Stop();
 
@@ -42,12 +42,12 @@ namespace TelegramBotTests
         [Test]
         public void BotGetsUpdateListFromApiClient()
         {
-            List<TelegramBotUpdate> updates;
-            List<TelegramBotUpdate> expected_updates = new List<TelegramBotUpdate>();
+            List<UpdateMessage> updates;
+            List<UpdateMessage> expected_updates = new List<UpdateMessage>();
 
             api_client_mock.Setup(api_client => api_client.GetUpdates()).Returns(expected_updates);
             
-            TelegramBot bot = new TelegramBot(api_client_mock.Object, bot_runner_mock.Object);
+            Bot bot = new Bot(api_client_mock.Object, bot_runner_mock.Object);
             
             updates = bot.GetUpdates();
 
@@ -57,24 +57,24 @@ namespace TelegramBotTests
         [Test]
         public void BotHandlesASaluteMessageUpdate()
         {
-            TelegramBotOutgoingMessage expected_message = new TelegramBotOutgoingMessage(chat_id: 344365009, text: "Hello John");
-            TelegramBotUpdate received_update = new TelegramBotUpdate(
+            OutgoingMessage expected_message = new OutgoingMessage(chat_id: 344365009, text: "Hello John");
+            UpdateMessage received_update = new UpdateMessage(
                 id: 153480413,
-                message: new TelegramBotUpdate.Message(
+                message: new UpdateMessage.Message(
                     id: 2,
                     date: 1597997582,
                     text: "Hello",
-                    from: new TelegramBotUpdate.User(
+                    from: new UpdateMessage.User(
                         id: 344365009,
                         first_name: "John",
                         last_name: "Doe",
                         username: ""
                     ),
-                    chat: new TelegramBotUpdate.Chat(id: 344365009)
+                    chat: new UpdateMessage.Chat(id: 344365009)
                 )
             );
 
-            TelegramBot bot = new TelegramBot(api_client_mock.Object, bot_runner_mock.Object);
+            Bot bot = new Bot(api_client_mock.Object, bot_runner_mock.Object);
 
             bot.HandleUpdate(received_update);
 

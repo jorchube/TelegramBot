@@ -4,12 +4,12 @@ using System.Text;
 
 namespace TelegramBotApp
 {
-    public class TelegramBot : TelegramBotInterface
+    public class Bot : BotInterface
     {
-        TelegramBotRunnerInterface runner;
-        TelegramBotApiClientInteface api_client;
+        BotRunnerInterface runner;
+        ApiClientInteface api_client;
 
-        public TelegramBot(TelegramBotApiClientInteface api_client, TelegramBotRunnerInterface runner)
+        public Bot(ApiClientInteface api_client, BotRunnerInterface runner)
         {
             this.runner = runner;
             this.api_client = api_client;
@@ -25,14 +25,14 @@ namespace TelegramBotApp
             runner.Stop();
         }
 
-        public List<TelegramBotUpdate> GetUpdates()
+        public List<UpdateMessage> GetUpdates()
         {
             return api_client.GetUpdates();
         }
 
-        public void HandleUpdate(TelegramBotUpdate update)
+        public void HandleUpdate(UpdateMessage update)
         {
-            TelegramBotOutgoingMessage response = new TelegramBotOutgoingMessage(
+            OutgoingMessage response = new OutgoingMessage(
                 chat_id: update.message.chat.id,
                 text: "Hello " + update.message.from.first_name
             );

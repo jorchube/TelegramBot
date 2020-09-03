@@ -4,9 +4,9 @@ using System.Text;
 
 namespace TelegramBotApp
 {
-    public interface TelegramBotRunnerInterface
+    public interface BotRunnerInterface
     {
-        public void Start(TelegramBotInterface bot);
+        public void Start(BotInterface bot);
         
         public void Stop();
     }

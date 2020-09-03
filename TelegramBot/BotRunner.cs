@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace TelegramBotApp
 {
-    public class TelegramBotRunner : TelegramBotRunnerInterface
+    public class BotRunner : BotRunnerInterface
     {
         CancellationTokenSource cancellation_token_source;
 
-        public TelegramBotRunner()
+        public BotRunner()
         {
             cancellation_token_source = new CancellationTokenSource();
         }
 
-        public void Start(TelegramBotInterface bot)
+        public void Start(BotInterface bot)
         {
             Task.Run(() => {
                 while (true) {
@@ -30,11 +30,11 @@ namespace TelegramBotApp
             cancellation_token_source.Cancel();
         }
 
-        private void HandleBotUpdates(TelegramBotInterface bot)
+        private void HandleBotUpdates(BotInterface bot)
         {
-            List<TelegramBotUpdate> updates = bot.GetUpdates();
+            List<UpdateMessage> updates = bot.GetUpdates();
 
-            foreach (TelegramBotUpdate update in updates) {
+            foreach (UpdateMessage update in updates) {
                 bot.HandleUpdate(update);
             }
         }

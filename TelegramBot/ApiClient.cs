@@ -8,7 +8,7 @@ using static TelegramBotApp.HttpClientWrapperInterface;
 
 namespace TelegramBotApp
 {
-    public class TelegramBotApiClient: TelegramBotApiClientInteface
+    public class ApiClient: ApiClientInteface
     {
         const int REQUEST_TIMEOUT_SECONDS = 60;
         const string GET_UPDATES_ENDPOINT = "getupdates";
@@ -17,28 +17,28 @@ namespace TelegramBotApp
         string api_token;
         HttpClientWrapperInterface http_client;
 
-        public TelegramBotApiClient(string api_token, HttpClientWrapperInterface http_client)
+        public ApiClient(string api_token, HttpClientWrapperInterface http_client)
         {
             this.api_token = api_token;
             this.http_client = http_client;
             this.get_updates_offset = 0;
         }
 
-        public List<TelegramBotUpdate> GetUpdates()
+        public List<UpdateMessage> GetUpdates()
         {
-            List<TelegramBotUpdate> updates;
+            List<UpdateMessage> updates;
             string uri = GetUpdatesUriString(REQUEST_TIMEOUT_SECONDS, get_updates_offset);
 
             HttpResponseMessageWrapper response = GetRequest(uri);
 
-            updates = TelegramBotApiGetUpdatesDecoder.Decode(response.Content);
+            updates = ApiGetUpdatesDecoder.Decode(response.Content);
 
             UpdateGetUpdatesRequestOffset(updates);
 
             return updates;
         }
 
-        public void SendMessage(TelegramBotOutgoingMessage message)
+        public void SendMessage(OutgoingMessage message)
         {
             string uri = SendMessageUriString();
             string content = OutgoingMessageEncoder.Encode(message);
@@ -51,7 +51,7 @@ namespace TelegramBotApp
             return new UriStringBuilder(api_token, SEND_MESSAGE_ENDPOINT).Build();
         }
 
-        private void UpdateGetUpdatesRequestOffset(List<TelegramBotUpdate> updates)
+        private void UpdateGetUpdatesRequestOffset(List<UpdateMessage> updates)
         {
             if (updates.Count == 0) {
                 return;

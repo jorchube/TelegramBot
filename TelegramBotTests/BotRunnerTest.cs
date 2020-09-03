@@ -8,7 +8,7 @@ using TelegramBotApp;
 
 namespace TelegramBotTests
 {
-    public class TelegramBotRunnerTest
+    public class BotRunnerTest
     {
         [SetUp]
         public void Setup()
@@ -19,7 +19,7 @@ namespace TelegramBotTests
         [Test]
         public void ItStartsAndStopsABot()
         {
-            TelegramBotRunner runner = new TelegramBotRunner();
+            BotRunner runner = new BotRunner();
             BotStub bot = new BotStub();
 
             runner.Start(bot);
@@ -31,21 +31,21 @@ namespace TelegramBotTests
             Assert.Greater(bot.handle_update_numcalls, 0);
         }
 
-        class BotStub : TelegramBotInterface
+        class BotStub : BotInterface
         {
             public int get_updates_numcalls = 0;
             public int handle_update_numcalls = 0;
 
-            public List<TelegramBotUpdate> GetUpdates()
+            public List<UpdateMessage> GetUpdates()
             {
                 get_updates_numcalls++;
 
                 Thread.Sleep(millisecondsTimeout: 10);
 
-                return new List<TelegramBotUpdate> { new TelegramBotUpdate() };
+                return new List<UpdateMessage> { new UpdateMessage() };
             }
 
-            public void HandleUpdate(TelegramBotUpdate update)
+            public void HandleUpdate(UpdateMessage update)
             {
                 handle_update_numcalls++;
             }

@@ -4,13 +4,13 @@ using System.Text;
 
 namespace TelegramBotApp
 {
-    public class TelegramBotOutgoingMessage
+    public class OutgoingMessage
     {
-        public TelegramBotOutgoingMessage()
+        public OutgoingMessage()
         {
         }
 
-        public TelegramBotOutgoingMessage(long chat_id, string text)
+        public OutgoingMessage(long chat_id, string text)
         {
             this.chat_id = chat_id;
             this.text = text;
@@ -25,7 +25,7 @@ namespace TelegramBotApp
                 return false;
             }
 
-            return this.chat_id == (other as TelegramBotOutgoingMessage).chat_id && this.text == (other as TelegramBotOutgoingMessage).text;
+            return this.chat_id == (other as OutgoingMessage).chat_id && this.text == (other as OutgoingMessage).text;
         }
 
         public override int GetHashCode()

@@ -4,14 +4,14 @@ using System.Text;
 
 namespace TelegramBotApp
 {
-    public class TelegramBotUpdate
+    public class UpdateMessage
     {
-        public TelegramBotUpdate()
+        public UpdateMessage()
         { 
         
         }
 
-        public TelegramBotUpdate(long id, Message message)
+        public UpdateMessage(long id, Message message)
         {
             this.update_id = id;
             this.message = message;
@@ -22,7 +22,7 @@ namespace TelegramBotApp
 
         public override bool Equals(object obj)
         {
-            TelegramBotUpdate other = obj as TelegramBotUpdate;
+            UpdateMessage other = obj as UpdateMessage;
 
             if (other == null) {
                 return false;

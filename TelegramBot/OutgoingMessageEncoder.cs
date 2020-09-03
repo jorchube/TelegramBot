@@ -7,7 +7,7 @@ namespace TelegramBotApp
 {
     public static class OutgoingMessageEncoder
     {
-        public static string Encode(TelegramBotOutgoingMessage message)
+        public static string Encode(OutgoingMessage message)
         {
             return JsonSerializer.Serialize(message);
         }
