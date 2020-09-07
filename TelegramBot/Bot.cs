@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace TelegramBotApp
 {
@@ -41,7 +42,7 @@ namespace TelegramBotApp
         public void HandleUpdate(UpdateMessage update)
         {
             foreach (UpdateHandlerInterface handler in update_handlers) {
-                handler.HandleUpdate(update, HandleUpdateCallback);
+                Task.Run(() => handler.HandleUpdate(update, HandleUpdateCallback));
             }
         }
 
