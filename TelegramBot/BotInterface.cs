@@ -10,5 +10,6 @@ namespace TelegramBotApp
         public void Stop();
         public List<UpdateMessage> GetUpdates();
         public void HandleUpdate(UpdateMessage update);
+        public void InstallUpdateHandler(UpdateHandlerInterface handler);
     }
 }

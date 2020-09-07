@@ -24,42 +24,16 @@ namespace BotAcceptanceTests
         }
 
         [Test]
-        public void BotReceivesASaluteAndAnswersTheUser()
+        public void BotHandlesAnUpdateMessage()
         {
-            string hello_message = @"{
-                ""ok"": true,
-                ""result"": [
-                    {
-                        ""update_id"": 153480413,
-                        ""message"": {
-                            ""message_id"": 2,
-                            ""from"": {
-                                ""id"": 344365009,
-                                ""is_bot"": false,
-                                ""first_name"": ""John"",
-                                ""last_name"": ""Doe"",
-                                ""language_code"": ""en""
-                            },
-                            ""chat"": {
-                                ""id"": 344365009,
-                                ""first_name"": ""John"",
-                                ""last_name"": ""Doe"",
-                                ""type"": ""private""
-                            },
-                            ""date"": 1597997582,
-                            ""text"": ""Hello""
-                        }
-                    }
-                ]
-            }";
-
             ApiClient api_client = new ApiClient(API_TOKEN, http_client_stub);
             BotRunner bot_runner = new BotRunner();
             Bot bot = new Bot(api_client, bot_runner);
+            bot.InstallUpdateHandler(new HelloTestHandler());
 
             bot.Start();
 
-            InjectUpdate(hello_message);
+            InjectUpdate(TEST_HELLO_MESSAGE);
 
             Thread.Sleep(millisecondsTimeout: 200);
             bot.Stop();
@@ -79,5 +53,42 @@ namespace BotAcceptanceTests
 
             return JsonSerializer.Deserialize<OutgoingMessage>(content);
         }
+
+        class HelloTestHandler : UpdateHandlerInterface
+        {
+            public void HandleUpdate(UpdateMessage message, UpdateHandlerInterface.HandleUpdateCallback response_callback)
+            {
+                OutgoingMessage response = new OutgoingMessage(message.message.chat.id, "Hello " + message.message.from.first_name);
+
+                response_callback(response);
+            }
+        }
+
+        const string TEST_HELLO_MESSAGE = @"{
+            ""ok"": true,
+            ""result"": [
+                {
+                    ""update_id"": 153480413,
+                    ""message"": {
+                        ""message_id"": 2,
+                        ""from"": {
+                            ""id"": 344365009,
+                            ""is_bot"": false,
+                            ""first_name"": ""John"",
+                            ""last_name"": ""Doe"",
+                            ""language_code"": ""en""
+                        },
+                        ""chat"": {
+                            ""id"": 344365009,
+                            ""first_name"": ""John"",
+                            ""last_name"": ""Doe"",
+                            ""type"": ""private""
+                        },
+                        ""date"": 1597997582,
+                        ""text"": ""Hello""
+                    }
+                }
+            ]
+        }";
     }
 }

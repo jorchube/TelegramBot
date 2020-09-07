@@ -19,7 +19,6 @@ namespace TelegramBotApp
             bot.Start();
 
             while (true) {
-                // FIXME: change this to stdin read to orderly terminate the program upon key press
                 Thread.Sleep(30);
             }
         }

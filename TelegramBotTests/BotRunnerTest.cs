@@ -50,6 +50,11 @@ namespace TelegramBotTests
                 handle_update_numcalls++;
             }
 
+            public void InstallUpdateHandler(UpdateHandlerInterface handler)
+            {
+                throw new NotImplementedException();
+            }
+
             public void Start()
             {
                 
