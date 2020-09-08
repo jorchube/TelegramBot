@@ -136,6 +136,8 @@ namespace TelegramBotApp
 
             public long id { get; set; }
 
+            public string type { get; set; }
+
             public override bool Equals(object obj)
             {
                 Chat other = obj as Chat;
