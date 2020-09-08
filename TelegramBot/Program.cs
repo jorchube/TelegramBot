@@ -7,6 +7,8 @@ namespace TelegramBotApp
 {
     class Program
     {
+        const string APP_NAME = "TelegramBot";
+
         static void Main(string[] args)
         {
             string api_token = args[0];
@@ -15,7 +17,7 @@ namespace TelegramBotApp
             ApiClient api_client = new ApiClient(api_token, http_client);
             BotRunner runner = new BotRunner();
 
-            Bot bot = new Bot(api_client, runner);
+            Bot bot = new Bot(api_client, runner, CreateLogger());
 
             InstallUpdateHandlersToBot(bot);
 
@@ -29,6 +31,11 @@ namespace TelegramBotApp
         static void InstallUpdateHandlersToBot(Bot bot)
         {
             bot.InstallUpdateHandler(new PoliteBotHandler());
+        }
+
+        static LoggerInterface CreateLogger()
+        {
+            return new Logger(APP_NAME, Console.WriteLine, () => DateTime.Now);
         }
     }
 }
